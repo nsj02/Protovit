@@ -1,7 +1,7 @@
 # ProtoViT
 
 This code package implements the adaptive Protoype based Vision Transformer (ProtoViT) 
-from the paper **"Interpretable Image Classification with Adaptive Prototype-based Vision Transformers"**
+from the paper **"Interpretable Image Classification with Adaptive Prototype-based Vision Transformers"** \\
 <img src="./arch2.png" width="600px" >
 
 ## Prerequisites
