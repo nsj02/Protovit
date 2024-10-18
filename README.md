@@ -27,7 +27,7 @@ https://www.kaggle.com/datasets/jessicali9530/stanford-cars-dataset/data
 
 The code is based on the other repositories: https://github.com/cfchen-duke/ProtoPNet
 
-Instructions for training the model:
+## Instructions for training the model:
 1. In settings.py, provide the appropriate strings for data_path, train_dir, test_dir,
 train_push_dir:
 (1) data_path is where the dataset resides
@@ -40,7 +40,7 @@ train_push_dir:
     -- if you followed the instructions for preparing the data, train_push_dir should be data_path + "train_cropped/"
 2. Run main.py
 
-Instructions for finding the nearest prototypes to a test image:
+## Instructions for finding the nearest prototypes to a test image:
 1. Run local_analysis.py and supply the following arguments to analysis_settings.py:
    
 -gpuid is the GPU device ID(s) you want to use (optional, default '0')
@@ -52,6 +52,6 @@ test_data is the directorty containing all the test images
 check_test_acc if you would like to check the model accuracy 
 check_list the list of test image you would like to perform the local analysis on 
 
-Instructions for finding the nearest patches to each prototype:
+## Instructions for finding the nearest patches to each prototype:
 1. Run global_analysis.py and supply the following arguments:
 -gpuid is the GPU device ID(s) you want to use (optional, default '0')
