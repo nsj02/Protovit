@@ -2,12 +2,13 @@
 
 This code package implements the adaptive Protoype based Vision Transformer (ProtoViT) 
 from the paper "Interpretable Image Classification with Adaptive Prototype-based Vision Transformers"
+<img src="./arch2.png" width="600px" >
 
 ## Prerequisites
 PyTorch, NumPy, cv2, Augmentor (https://github.com/mdbloice/Augmentor), Timm
 
 Recommended hardware: 1 NVIDIA Quadro RTX 6000 (24 GB), 1 NVIDIA Ge Force RTX 4090 (24 GB) or 1 NVIDIA RTX A6000 (48 GB).
-<img src="./arch2.png" width="600px" >
+
 
 ## Dataset 
 Instructions for preparing the data:
