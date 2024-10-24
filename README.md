@@ -7,7 +7,7 @@
 This repository contains the official implementation of the paper ["Interpretable Image Classification with Adaptive Prototype-based Vision Transformers"](#).
 
 <div align="center">
-<img src="./arch2.png" width="800px">
+<img src="./arch2.png" width="600px">
 </div>
 
 ## Table of Contents
