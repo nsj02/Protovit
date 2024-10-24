@@ -1,59 +1,138 @@
-# ProtoViT
+# ProtoViT: Interpretable Image Classification with Adaptive Prototype-based Vision Transformers
 
-This code package implements the adaptive Protoype based Vision Transformer (ProtoViT) 
-from the paper<br> **"Interpretable Image Classification with Adaptive Prototype-based Vision Transformers"** <br>
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![PyTorch](https://img.shields.io/badge/PyTorch-1.x-red.svg)](https://pytorch.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-<img src="./arch2.png" width="600px" >
+This repository contains the official implementation of the paper ["Interpretable Image Classification with Adaptive Prototype-based Vision Transformers"](#).
+
+<div align="center">
+<img src="./arch2.png" width="800px">
+</div>
+
+## Table of Contents
+- [Overview](#overview)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Dataset Preparation](#dataset-preparation)
+- [Training](#training)
+- [Analysis](#analysis)
+- [Citation](#citation)
+- [Acknowledgments](#acknowledgments)
+
+## Overview
+
+ProtoViT is a novel approach that combines Vision Transformers with prototype-based learning to create interpretable image classification models. Our implementation provides both high accuracy and explainability through learned prototypes.
 
 ## Prerequisites
-PyTorch, NumPy, cv2, Augmentor (https://github.com/mdbloice/Augmentor), Timm==0.4.12 (A higher version of timm may require modifications on ViT encoder part)
 
-Recommended hardware: 1 NVIDIA Quadro RTX 6000 (24 GB), 1 NVIDIA Ge Force RTX 4090 (24 GB) or 1 NVIDIA RTX A6000 (48 GB).
+### Software Requirements
+- Python 3.8+
+- PyTorch
+- NumPy
+- OpenCV (cv2)
+- [Augmentor](https://github.com/mdbloice/Augmentor)
+- Timm==0.4.12 (Note: Higher versions may require modifications to the ViT encoder)
 
+### Hardware Requirements
+Recommended GPU configurations:
+- 1× NVIDIA Quadro RTX 6000 (24GB) or
+- 1× NVIDIA GeForce RTX 4090 (24GB) or
+- 1× NVIDIA RTX A6000 (48GB)
 
-## Dataset 
-Instructions for preparing the data:
-1. Download the dataset CUB_200_2011.tgz from http://www.vision.caltech.edu/visipedia/CUB-200-2011.html
-3. Unpack CUB_200_2011.tgz
-4. Crop the images using information from bounding_boxes.txt (included in the dataset)
-5. Split the cropped images into training and test sets, using train_test_split.txt (included in the dataset)
-6. Put the cropped training images in the directory "./datasets/cub200_cropped/train_cropped/"
-7. Put the cropped test images in the directory "./datasets/cub200_cropped/test_cropped/"
-8. Augment the training set using img_aug.py (included in this code package)
-   -- this will create an augmented training set in the following directory:
-      "./datasets/cub200_cropped/train_cropped_augmented/"
+## Installation
 
-Dataset Stanford Cars can be downloaded from: https://ai.stanford.edu/~jkrause/cars/car_dataset.html
-If the link doesn't work, the dataset can also be found here: 
-https://www.kaggle.com/datasets/jessicali9530/stanford-cars-dataset/data 
+```bash
+git clone https://github.com/yourusername/ProtoViT.git
+cd ProtoViT
+pip install -r requirements.txt
+```
 
-The code is based on the other repositories: https://github.com/cfchen-duke/ProtoPNet
+## Dataset Preparation
 
-## Instructions for training the model:
-1. In settings.py, provide the appropriate strings for data_path, train_dir, test_dir,
-train_push_dir:
-(1) data_path is where the dataset resides
-    -- if you followed the instructions for preparing the data, data_path should be "./datasets/cub200_cropped/"
-(2) train_dir is the directory containing the augmented training set
-    -- if you followed the instructions for preparing the data, train_dir should be data_path + "train_cropped_augmented/"
-(3) test_dir is the directory containing the test set
-    -- if you followed the instructions for preparing the data, test_dir should be data_path + "test_cropped/"
-(4) train_push_dir is the directory containing the original (unaugmented) training set
-    -- if you followed the instructions for preparing the data, train_push_dir should be data_path + "train_cropped/"
-2. Run main.py
+### CUB-200-2011 Dataset
 
-## Instructions for finding the nearest prototypes to a test image:
-1. Run local_analysis.py and supply the following arguments to analysis_settings.py:
+1. Download [CUB_200_2011.tgz](http://www.vision.caltech.edu/visipedia/CUB-200-2011.html)
+2. Extract the dataset:
+   ```bash
+   tar -xzf CUB_200_2011.tgz
+   ```
+3. Process the dataset:
+   ```bash
+   # Create directory structure
+   mkdir -p ./datasets/cub200_cropped/{train_cropped,test_cropped}
    
--gpuid is the GPU device ID(s) you want to use (optional, default '0')
-load_model_dir is the directory containing the model you want to analyze
-load_model_name is the filename of the saved model you want to analyze
-save_analysis_path is the directory you want to save for local analysis result 
-img_name is the directory containing the image you want to analyze
-test_data is the directorty containing all the test images 
-check_test_acc if you would like to check the model accuracy 
-check_list the list of test image you would like to perform the local analysis on 
+   # Crop and split images using provided scripts
+   python scripts/crop_images.py  # Uses bounding_boxes.txt
+   python scripts/split_dataset.py  # Uses train_test_split.txt
+   
+   # Augment training data
+   python img_aug.py
+   ```
 
-## Instructions for finding the nearest patches to each prototype:
-1. Run global_analysis.py and supply the following arguments:
--gpuid is the GPU device ID(s) you want to use (optional, default '0')
+### Stanford Cars Dataset
+Alternative dataset option available from:
+- [Official Stanford Cars Dataset](https://ai.stanford.edu/~jkrause/cars/car_dataset.html)
+- [Kaggle Mirror](https://www.kaggle.com/datasets/jessicali9530/stanford-cars-dataset/data)
+
+## Training
+
+1. Configure settings in `settings.py`:
+
+```python
+# Dataset paths
+data_path = "./datasets/cub200_cropped/"
+train_dir = data_path + "train_cropped_augmented/"
+test_dir = data_path + "test_cropped/"
+train_push_dir = data_path + "train_cropped/"
+```
+
+2. Start training:
+```bash
+python main.py
+```
+
+## Analysis
+
+### Local Analysis
+Analyze nearest prototypes for specific test images:
+
+```bash
+python local_analysis.py \
+    --gpuid 0 \
+    --load_model_dir path/to/model \
+    --load_model_name model.pth \
+    --save_analysis_path path/to/save \
+    --img_name path/to/image \
+    --test_data path/to/test/data \
+    --check_test_acc \
+    --check_list path/to/test/list
+```
+
+### Global Analysis
+Find nearest patches for each prototype:
+
+```bash
+python global_analysis.py --gpuid 0
+```
+
+## Citation
+
+If you find this work useful in your research, please consider citing:
+
+```bibtex
+@article{protovit2023,
+  title={Interpretable Image Classification with Adaptive Prototype-based Vision Transformers},
+  author={},
+  journal={},
+  year={2023}
+}
+```
+
+## Acknowledgments
+
+This implementation is based on the [ProtoPNet](https://github.com/cfchen-duke/ProtoPNet) repository. We thank the authors for their valuable work.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
