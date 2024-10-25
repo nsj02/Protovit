@@ -66,13 +66,14 @@ pip install -r requirements.txt
    python scripts/crop_images.py  # Uses bounding_boxes.txt
    python scripts/split_dataset.py  # Uses train_test_split.txt
    
-   # Augment training data
+   # Augment training data 
    python img_aug.py
    ```
 
 ### Stanford Cars Dataset
-Alternative dataset option available from:
+The official website for the dataset is: 
 - [Official Stanford Cars Dataset](https://ai.stanford.edu/~jkrause/cars/car_dataset.html)
+Alternative dataset option available from:
 - [Kaggle Mirror](https://www.kaggle.com/datasets/jessicali9530/stanford-cars-dataset/data)
 
 ## Training
@@ -95,7 +96,7 @@ python main.py
 ## Analysis
 
 ### Local Analysis
-Analyze nearest prototypes for specific test images:
+Analyze nearest prototypes for specific test images and retrieve model reasoning process for predictions:
 
 ```bash
 python local_analysis.py \
@@ -110,7 +111,7 @@ python local_analysis.py \
 ```
 
 ### Global Analysis
-Find nearest patches for each prototype:
+Find nearest patches for each prototype to ensure the prototypes are semantically consistent across samples in train and test data:
 
 ```bash
 python global_analysis.py --gpuid 0
