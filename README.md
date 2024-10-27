@@ -140,6 +140,24 @@ This following file finds nearest patches for each prototype to ensure the proto
 python global_analysis.py -gpuid 0
 ```
 
+## Location Misalignment 
+### Parameter settings 
+
+All the parameters used for reproducing our results on location misalignment are stored in adv_settings.py 
+
+```python
+load_model_path = "."
+test_dir = "./cub200_cropped/test_cropped"
+model_output_dir = "." # dir for saving all the results 
+```
+
+To run the adversarial attack and retrieve the results
+
+```bash
+cd ./spatial_alignment_test
+python run_adv_test.py # as default, we ran experiment over entire test set
+```
+
 ## Acknowledgments
 
 This implementation is based on the [ProtoPNet](https://github.com/cfchen-duke/ProtoPNet) repository. We thank the authors for their valuable work.
