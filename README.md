@@ -95,19 +95,24 @@ python main.py
 
 ## Analysis
 
+### Parameter settings 
+
+The corresponsing parameter settings for global and local analysis are saved in the analysis_settings.py 
+```python 
+   load_model_dir = 'saved model path'#'./saved_models/vgg19/003/'
+   load_model_name = 'model_name'#'14finetuned0.9230.pth'
+   save_analysis_path = 'saved_dir_rt'
+   img_name = 'prototype_vis_file'# 'img/'
+   test_data = "test_dir"
+   check_test_acc = False
+   check_list =['list of test images'] #"163_Mercedes-Benz SL-Class Coupe 2009/03123.jpg", Could be a list of images
+```
+
 ### Local Analysis
 Analyze nearest prototypes for specific test images and retrieve model reasoning process for predictions:
 
 ```bash
-python local_analysis.py \
-    --gpuid 0 \
-    --load_model_dir path/to/model \
-    --load_model_name model.pth \
-    --save_analysis_path path/to/save \
-    --img_name path/to/image \
-    --test_data path/to/test/data \
-    --check_test_acc \
-    --check_list path/to/test/list
+python local_analysis.py -gpuid 0
 ```
 
 ### Global Analysis
