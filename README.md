@@ -114,7 +114,12 @@ The corresponsing parameter settings for global and local analysis are saved in 
 ```
 
 ### Local Analysis
+
 Analyze nearest prototypes for specific test images and retrieve model reasoning process for predictions:
+
+<div align="center">
+<img src="assets/reasoning.jpg" width="600px">
+</div>
 
 ```bash
 python local_analysis.py -gpuid 0
@@ -122,6 +127,10 @@ python local_analysis.py -gpuid 0
 
 ### Global Analysis
 Find nearest patches for each prototype to ensure the prototypes are semantically consistent across samples in train and test data:
+
+<div align="center">
+<img src="assets/analysis.jpg" width="600px">
+</div>
 
 ```bash
 python global_analysis.py -gpuid 0
