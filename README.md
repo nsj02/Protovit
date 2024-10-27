@@ -163,12 +163,6 @@ cd ./spatial_alignment_test
 python run_adv_test.py # as default, we ran experiment over entire test set
 ```
 
-## Contact Info 
-
-If you have any questions regarding the paper and its implementation, please feel free to send an email:
-chiyu.ma.gr@dartmouth.edu
-
-
 ## Acknowledgments
 
 This implementation is based on the [ProtoPNet](https://github.com/cfchen-duke/ProtoPNet) repository. We thank the authors for their valuable work.
