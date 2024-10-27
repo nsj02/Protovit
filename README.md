@@ -122,19 +122,6 @@ Find nearest patches for each prototype to ensure the prototypes are semanticall
 python global_analysis.py -gpuid 0
 ```
 
-## Citation
-
-If you find this work useful in your research, please consider citing:
-
-```bibtex
-@article{protovit2023,
-  title={Interpretable Image Classification with Adaptive Prototype-based Vision Transformers},
-  author={},
-  journal={},
-  year={2023}
-}
-```
-
 ## Acknowledgments
 
 This implementation is based on the [ProtoPNet](https://github.com/cfchen-duke/ProtoPNet) repository. We thank the authors for their valuable work.
