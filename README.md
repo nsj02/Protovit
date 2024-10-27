@@ -141,6 +141,11 @@ python global_analysis.py -gpuid 0
 ```
 
 ## Location Misalignment 
+
+To run the experiment, you would also need cleverhans
+```bash
+pip install cleverhans
+```
 ### Parameter settings 
 
 All the parameters used for reproducing our results on location misalignment are stored in adv_settings.py 
