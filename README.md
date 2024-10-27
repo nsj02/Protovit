@@ -55,6 +55,7 @@ pip install -r requirements.txt
 1. Download [CUB_200_2011.tgz](http://www.vision.caltech.edu/visipedia/CUB-200-2011.html)
 2. Extract the dataset:
    ```bash
+   #Download the dataset CUB_200_2011.tgz from http://www.vision.caltech.edu/visipedia/CUB-200-2011.html
    tar -xzf CUB_200_2011.tgz
    ```
 3. Process the dataset:
@@ -65,9 +66,13 @@ pip install -r requirements.txt
    # Crop and split images using provided scripts
    python scripts/crop_images.py  # Uses bounding_boxes.txt
    python scripts/split_dataset.py  # Uses train_test_split.txt
+   #Put the cropped training images in the directory "./datasets/cub200_cropped/train_cropped/"
+   #Put the cropped test images in the directory "./datasets/cub200_cropped/test_cropped/"
    
    # Augment training data 
    python img_aug.py
+   #this will create an augmented training set in the following directory:
+   #"./datasets/cub200_cropped/train_cropped_augmented/"
    ```
 
 ### Stanford Cars Dataset
