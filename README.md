@@ -43,7 +43,7 @@ Recommended GPU configurations:
 ## Installation
 
 ```bash
-git clone https://github.com/yourusername/ProtoViT.git
+git clone https://github.com/Henrymachiyu/ProtoViT.git
 cd ProtoViT
 pip install -r requirements.txt
 ```
