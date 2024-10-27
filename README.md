@@ -113,24 +113,29 @@ The corresponsing parameter settings for global and local analysis are saved in 
    check_list =['list of test images'] #"163_Mercedes-Benz SL-Class Coupe 2009/03123.jpg", Could be a list of images
 ```
 
-### Local Analysis
+### Local Analysis and reasoning process
 
-Analyze nearest prototypes for specific test images and retrieve model reasoning process for predictions:
-
+To produce the reasoning plots: 
 <div align="center">
 <img src="assets/reasoning.jpg" width="600px">
 </div>
 
+We analyze nearest prototypes for specific test images and retrieve model reasoning process for predictions:
+
 ```bash
+# this function provdes results for model's reasoning and local analysis
+
 python local_analysis.py -gpuid 0
 ```
 
 ### Global Analysis
-Find nearest patches for each prototype to ensure the prototypes are semantically consistent across samples in train and test data:
+To produce the global analysis plots:
 
 <div align="center">
 <img src="assets/analysis.jpg" width="600px">
 </div>
+
+This following file finds nearest patches for each prototype to ensure the prototypes are semantically consistent across samples in train and test data:
 
 ```bash
 python global_analysis.py -gpuid 0
