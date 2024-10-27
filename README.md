@@ -17,7 +17,6 @@ This repository contains the official implementation of the paper ["Interpretabl
 - [Dataset Preparation](#dataset-preparation)
 - [Training](#training)
 - [Analysis](#analysis)
-- [Location Misalignment](#location-misalignment)
 - [Acknowledgments](#acknowledgments)
 
 ## Overview
