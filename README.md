@@ -119,7 +119,7 @@ python local_analysis.py -gpuid 0
 Find nearest patches for each prototype to ensure the prototypes are semantically consistent across samples in train and test data:
 
 ```bash
-python global_analysis.py --gpuid 0
+python global_analysis.py -gpuid 0
 ```
 
 ## Citation
