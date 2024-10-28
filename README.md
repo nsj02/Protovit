@@ -167,6 +167,10 @@ python run_adv_test.py # as default, we ran experiment over entire test set
 
 This implementation is based on the [ProtoPNet](https://github.com/cfchen-duke/ProtoPNet) repository. We thank the authors for their valuable work.
 
+## Contact Info
+
+If you have any questions regarding the paper and implementation, please don't hesitate to email us: chiyu.ma.gr@dartmouth.edu
+
 ## License
 
 This project is licensed under the MIT License. 
