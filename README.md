@@ -79,6 +79,7 @@ pip install -r requirements.txt
 ### Stanford Cars Dataset
 The official website for the dataset is: 
 - [Official Stanford Cars Dataset](https://ai.stanford.edu/~jkrause/cars/car_dataset.html)
+
 Alternative dataset option available from:
 - [Kaggle Mirror](https://www.kaggle.com/datasets/jessicali9530/stanford-cars-dataset/data)
 
