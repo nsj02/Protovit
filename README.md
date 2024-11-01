@@ -170,7 +170,7 @@ This implementation is based on the timm, [ProtoPNet](https://github.com/cfchen-
 
 ## Contact Info
 
-If you have any questions regarding the paper and implementation, please don't hesitate to email us: chiyu.ma.gr@dartmouth.edu
+If you have any questions regarding the paper or implementations, please don't hesitate to email us: chiyu.ma.gr@dartmouth.edu
 
 ## Citation 
 
