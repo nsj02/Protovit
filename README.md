@@ -169,7 +169,7 @@ python run_adv_test.py # as default, we ran experiment over entire test set
 ### Model Zoo
 
 ### CUB-200-2011 Dataset Results
-
+We provide checkpoints after projection and last layer finetuning on CUB-200-2011 dataset. 
 | Model Version | Backbone | Resolution | Accuracy | Checkpoint |
 |--------------|----------|------------|----------|------------|
 | ProtoViT-T | DeiT-Tiny | 224×224 | 83.36% | [Download](https://huggingface.co/chiyum609/ProtoViT/blob/main/DeiT_Tiny_finetuned0.8336.pth) | 
