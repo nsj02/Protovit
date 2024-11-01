@@ -164,6 +164,8 @@ cd ./spatial_alignment_test
 python run_adv_test.py # as default, we ran experiment over entire test set
 ```
 
+### Checkpoints 
+
 ## Acknowledgments
 
 This implementation is based on the timm, [ProtoPNet](https://github.com/cfchen-duke/ProtoPNet) repository and its variations. We thank the authors for their valuable work.
