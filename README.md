@@ -171,6 +171,18 @@ This implementation is based on the [ProtoPNet](https://github.com/cfchen-duke/P
 
 If you have any questions regarding the paper and implementation, please don't hesitate to email us: chiyu.ma.gr@dartmouth.edu
 
+## Citation 
+
+If you find this work useful in your research, please consider citing:
+
+```bibtex 
+@article{ma2024interpretable,
+  title={Interpretable Image Classification with Adaptive Prototype-based Vision Transformers},
+  author={Ma, Chiyu and Donnelly, Jon and Liu, Wenjun and Vosoughi, Soroush and Rudin, Cynthia and Chen, Chaofan},
+  journal={arXiv preprint arXiv:2410.20722},
+  year={2024}
+}
+```
 ## License
 
 This project is licensed under the MIT License. 
