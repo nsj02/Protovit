@@ -17,6 +17,7 @@ This repository contains the official implementation of the paper ["Interpretabl
 - [Dataset Preparation](#dataset-preparation)
 - [Training](#training)
 - [Analysis](#analysis)
+- [Model Zoo](#modelzoo)
 - [Citation](#citation)
 - [Acknowledgments](#acknowledgments)
 
