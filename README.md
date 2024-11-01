@@ -4,7 +4,7 @@
 [![PyTorch](https://img.shields.io/badge/PyTorch-1.x-red.svg)](https://pytorch.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-This repository contains the official implementation of the paper ["Interpretable Image Classification with Adaptive Prototype-based Vision Transformers"](#). (NeurIPS 2024)
+This repository contains the official implementation of the paper ["Interpretable Image Classification with Adaptive Prototype-based Vision Transformers"](https://arxiv.org/abs/2410.20722). (NeurIPS 2024)
 
 <div align="center">
 <img src="assets/arch.jpg" width="600px">
