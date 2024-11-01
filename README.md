@@ -166,7 +166,7 @@ python run_adv_test.py # as default, we ran experiment over entire test set
 
 ## Acknowledgments
 
-This implementation is based on the [ProtoPNet](https://github.com/cfchen-duke/ProtoPNet) and timm repository. We thank the authors for their valuable work.
+This implementation is based on the timm, [ProtoPNet](https://github.com/cfchen-duke/ProtoPNet) repository and its variations. We thank the authors for their valuable work.
 
 ## Contact Info
 
