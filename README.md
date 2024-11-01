@@ -164,7 +164,16 @@ cd ./spatial_alignment_test
 python run_adv_test.py # as default, we ran experiment over entire test set
 ```
 
-### Checkpoints 
+### Model Zoo
+
+### CUB-200-2011 Dataset Results
+
+| Model Version | Backbone | Resolution | Accuracy | Checkpoint |
+|--------------|----------|------------|----------|------------|
+| ProtoViT-T | DeiT-Tiny | 224×224 | 83.36% | [Download](https://huggingface.co/chiyum609/ProtoViT/blob/main/DeiT_Tiny_finetuned0.8336.pth) | 
+| ProtoViT-S | DeiT-Small | 224×224 | 85.30% | [Download](https://huggingface.co/chiyum609/ProtoViT/blob/main/DeiT_Small_finetuned0.8530.pth) | 
+| ProtoViT-CaiT | CaiT_xxs24 | 224×224 | 86.02% |  [Download](https://huggingface.co/chiyum609/ProtoViT/blob/main/CaiT_xxs24_224_finetuned0.8602.pth) |
+
 
 ## Acknowledgments
 
