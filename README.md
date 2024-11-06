@@ -28,8 +28,10 @@ ProtoViT is a novel approach that combines Vision Transformers with prototype-ba
 ## Prerequisites
 
 ### Software Requirements
+
+These packages should be enough to reproduce our results. We add requirement.txt based on our conda environment for reference just in case. 
 - Python 3.8+
-- PyTorch
+- PyTorch with cuda
 - NumPy
 - OpenCV (cv2)
 - [Augmentor](https://github.com/mdbloice/Augmentor)
