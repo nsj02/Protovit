@@ -60,7 +60,10 @@ pip install -r requirements.txt
    tar -xzf CUB_200_2011.tgz
    ```
 3. Process the dataset:
-   For cropping data and training_test split images, we don't provide the code, please carefully follow the instructions from the dataset. 
+   
+   For cropping data and training_test split images, please carefully follow the instructions from the dataset.
+   Sample code can be found in preprocess sample code that can crop and split data with Jupyter Notebook.
+      
    ```bash
    # Create directory structure
    mkdir -p ./datasets/cub200_cropped/{train_cropped,test_cropped}
