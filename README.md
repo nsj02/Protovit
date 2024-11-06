@@ -61,7 +61,7 @@ pip install -r requirements.txt
    ```
 3. Process the dataset:
    
-   For cropping data and training_test split images, please carefully follow the instructions from the dataset.
+   For cropping data and training_test split, please carefully follow the instructions from the dataset.
    Sample code can be found in preprocess sample code that can crop and split data with Jupyter Notebook.
       
    ```bash
