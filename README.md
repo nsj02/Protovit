@@ -195,7 +195,7 @@ Feel free to ⭐ the repo, contribute, or share it with others who might find it
 
 ## Citation 
 
-If you find this work helpful in your research, please consider citing:
+If you find this work helpful in your research, please also consider citing:
 
 ```bibtex 
 @article{ma2024interpretable,
