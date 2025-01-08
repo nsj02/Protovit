@@ -193,7 +193,7 @@ If you have any questions regarding the paper or implementations, please don't h
 
 ## Citation 
 
-If you find this work useful in your research, please consider citing:
+If you find this work useful in your research, please consider citing and giving it a ⭐ to support us:
 
 ```bibtex 
 @article{ma2024interpretable,
