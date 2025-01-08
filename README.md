@@ -190,10 +190,11 @@ This implementation is based on the timm, [ProtoPNet](https://github.com/cfchen-
 ## Contact Info
 
 If you have any questions regarding the paper or implementations, please don't hesitate to email us: chiyu.ma.gr@dartmouth.edu
+Feel free to ⭐ the repo, contribute, or share it with others who might find it useful!
 
 ## Citation 
 
-If you find this work useful in your research, please consider citing and giving it a ⭐ to support us:
+If you find this work useful in your research, please consider citing:
 
 ```bibtex 
 @article{ma2024interpretable,
