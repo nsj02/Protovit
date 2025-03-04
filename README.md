@@ -198,11 +198,14 @@ Feel free to ⭐ the repo, contribute, or share it with others who might find it
 If you find this work helpful in your research, please also consider citing:
 
 ```bibtex 
-@article{ma2024interpretable,
-  title={Interpretable Image Classification with Adaptive Prototype-based Vision Transformers},
+@article{ma2025interpretable,
+  title={Interpretable image classification with adaptive prototype-based vision transformers},
   author={Ma, Chiyu and Donnelly, Jon and Liu, Wenjun and Vosoughi, Soroush and Rudin, Cynthia and Chen, Chaofan},
-  journal={arXiv preprint arXiv:2410.20722},
-  year={2024}
+  journal={Advances in Neural Information Processing Systems},
+  volume={37},
+  pages={41447--41493},
+  year={2025}
+}
 }
 ```
 ## License
