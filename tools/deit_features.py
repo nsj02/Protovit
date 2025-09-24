@@ -1,6 +1,9 @@
+"""Feature extractor wrappers for DeiT backbones (timm)."""
+
 # Copyright (c) 2015-present, Facebook, Inc.
 # All rights reserved.
 # code borrowed from: https://github.com/facebookresearch/deit
+
 import torch
 import torch.nn as nn
 from functools import partial
@@ -18,22 +21,28 @@ __all__ = [
     'deit_base_distilled_patch16_384',
 ]
 
-def get_pretrained_weights_path(model_name):
 
+def get_pretrained_weights_path(model_name: str) -> str:
+    """Return official DeiT weight URL for selected backbone."""
+
+    finetune = ''
     if model_name in ["deit_small_patch16_224", "deit_base_patch16_224", "deit_tiny_patch16_224",
-            "deit_tiny_distilled_patch16_224"]:
+                      "deit_tiny_distilled_patch16_224"]:
         if model_name == "deit_small_patch16_224":
             finetune = 'https://dl.fbaipublicfiles.com/deit/deit_small_patch16_224-cd65a155.pth'
         elif model_name == "deit_base_patch16_224":
             finetune = 'https://dl.fbaipublicfiles.com/deit/deit_base_patch16_224-b5f2ef4d.pth'
         elif model_name == "deit_tiny_patch16_224":
             finetune = 'https://dl.fbaipublicfiles.com/deit/deit_tiny_patch16_224-a1311bcf.pth'
-
+        elif model_name == "deit_tiny_distilled_patch16_224":
+            finetune = 'https://dl.fbaipublicfiles.com/deit/deit_tiny_distilled_patch16_224-b40b3cf7.pth'
     return finetune
 
-def get_pretrained_weights(model_name, model):
+
+def get_pretrained_weights(model_name: str, model: nn.Module) -> nn.Module:
+    """Load DeiT weights and interpolate positional embeddings if needed."""
+
     finetune = get_pretrained_weights_path(model_name)
-    print(finetune)
     if finetune.startswith('https'):
         checkpoint = torch.hub.load_state_dict_from_url(
             finetune, map_location='cpu', check_hash=True)
@@ -44,18 +53,15 @@ def get_pretrained_weights(model_name, model):
     for k in ['head.weight', 'head.bias', 'head_dist.weight', 'head_dist.bias']:
         if k in checkpoint_model and checkpoint_model[k].shape != state_dict[k].shape:
             del checkpoint_model[k]
-    # interpolate position embedding
+
+    # interpolate position embedding if image size differs
     pos_embed_checkpoint = checkpoint_model['pos_embed']
     embedding_size = pos_embed_checkpoint.shape[-1]
     num_patches = model.patch_embed.num_patches
     num_extra_tokens = model.pos_embed.shape[-2] - num_patches
-    # height (== width) for the checkpoint position embedding
     orig_size = int((pos_embed_checkpoint.shape[-2] - num_extra_tokens) ** 0.5)
-    # height (== width) for the new position embedding
     new_size = int(num_patches ** 0.5)
-    # class_token and dist_token are kept unchanged
     extra_tokens = pos_embed_checkpoint[:, :num_extra_tokens]
-    # only the position tokens are interpolated
     pos_tokens = pos_embed_checkpoint[:, num_extra_tokens:]
     pos_tokens = pos_tokens.reshape(-1, orig_size, orig_size, embedding_size).permute(0, 3, 1, 2)
     pos_tokens = torch.nn.functional.interpolate(
@@ -65,12 +71,12 @@ def get_pretrained_weights(model_name, model):
     checkpoint_model['pos_embed'] = new_pos_embed
 
     model.load_state_dict(checkpoint_model, strict=False)
-
     return model
 
 
 
 class DistilledVisionTransformer(VisionTransformer):
+    """VisionTransformer variant with a distillation token head."""
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.dist_token = nn.Parameter(torch.zeros(1, 1, self.embed_dim))
@@ -116,6 +122,7 @@ class DistilledVisionTransformer(VisionTransformer):
 
 @register_model
 def deit_tiny_patch_features(pretrained=False, **kwargs):
+    """Return DeiT tiny backbone without classification head."""
     base_arch = 'deit_tiny_patch16_224'
     model = create_model(
     base_arch,
@@ -134,6 +141,7 @@ def deit_tiny_patch_features(pretrained=False, **kwargs):
 
 @register_model
 def deit_small_patch_features(pretrained=False, **kwargs):
+    """Return DeiT small backbone without classification head."""
     base_arch = 'deit_small_patch16_224'
     model = create_model(
     base_arch,

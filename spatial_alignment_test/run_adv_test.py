@@ -1,37 +1,39 @@
-import torch 
-import torch.utils.data
+"""Adversarial spatial alignment analysis script.
+
+프로토타입 기반 모델에 대한 위치 교란 실험을 수행하고, 공격 전후 활성 변화
+및 위치 불일치(PLC/PAC/PRC)를 계산한다.
+"""
+
 import os
 import shutil
-import torchvision.transforms as transforms
-from torch.autograd import Variable
-import torchvision.datasets as datasets
-from torch import nn
-import torch.nn.functional as F
-from torch.utils.data import Dataset
-from torchvision import transforms
-import re
-from helpers import makedir,find_high_activation_crop
-import model
-import train_and_test as tnt
-from pathlib import Path
-import save
-from log import create_logger
-from preprocess import mean, std, preprocess_input_function
-from preprocess import undo_preprocess_input_function
-import matplotlib.pyplot as plt
-import cv2
-from PIL import Image
-from typing import List, Optional
+import argparse
+import json
 import copy
 import pickle
-import json
-import argparse
 from collections import defaultdict
-from typing import List
-import pandas as pd
+from pathlib import Path
+from typing import Dict, List, Optional
+
+import cv2
 import numpy as np
-from torch.utils.data import Subset
+import pandas as pd
+import torch
+import torch.nn.functional as F
+import torch.utils.data
+import torchvision.datasets as datasets
+import torchvision.transforms as transforms
+from PIL import Image
+from torch import nn
+from torch.autograd import Variable
+from torch.utils.data import Dataset, Subset
 from tqdm import tqdm
+
+from helpers import makedir, find_high_activation_crop
+import model
+import save
+import train_and_test as tnt
+from log import create_logger
+from preprocess import mean, std, preprocess_input_function, undo_preprocess_input_function
 
 #######################################################################
 # put help function modules on top of everything 
@@ -48,27 +50,19 @@ import numpy as np
 from preprocess import mean, std
 from settings import img_size
 
-def retrieve_heatmap(model, sample):
-    '''
-    We follow the definition of PLC in location misalignment to compare the location change in the top 10 percentile 
-    of the activation area 
-    '''
-    _, dist_all = model.subpatch_dist(sample)# bsz, 2000, 196, 4
+def retrieve_heatmap(model, sample: torch.Tensor) -> torch.Tensor:
+    """상위 10% 활성 영역을 마스크로 반환 (PLC 계산 보조)."""
+
+    _, dist_all = model.subpatch_dist(sample)  # [B, num_proto, 196, num_slots]
     percentiles = torch.quantile(dist_all.detach().cpu(), 0.9, dim=2, keepdim=True)
-    greater_than_percentile = dist_all.detach().cpu() >= percentiles # simulated heatmap with TF 
-    #2indices = torch.nonzero(greater_than_percentile)
-    return greater_than_percentile#.numpy()
+    greater_than_percentile = dist_all.detach().cpu() >= percentiles
+    return greater_than_percentile
 
 def get_all_class_proto_low_activation_bbox_mask(
         proto_nums: List[np.ndarray],
         activations: np.ndarray,
         bbox: np.ndarray) -> np.ndarray:
-    """
-    Get a mask that has 0 on pixels within high activation bounding box of any of the ground truth prototypes.
-    :param proto_nums: list of prototype numbers to attack for each image
-    :param activations: a tensor of prototype activations over image patches of shape [B, P, Wp, Hp]
-    :param epsilon_pixels: number of border pixels to add to the high activation bounding box
-    """
+    """GT 프로토타입 bbox 내 픽셀을 0으로 설정한 공격 마스크 생성."""
     assert len(proto_nums) == activations.shape[0]
     proto_mask = np.ones((activations.shape[0], 1, img_size, img_size), dtype=np.float32)
     for sample_i in range(activations.shape[0]):
@@ -238,6 +232,7 @@ class PPNetAdversarialWrapper(nn.Module):
 def run_model_on_batch(
         model: torch.nn.Module,
         batch: torch.Tensor):
+    """모델을 배치에 적용해 예측/슬롯 활성/bbox index를 반환."""
     _, _, bb_box_indices = model.push_forward(batch)
     #output, _, _ = model(batch)
     max_activation, min_distances, _ = model.greedy_distance(batch)
@@ -256,15 +251,7 @@ def run_model_on_dataset(
         num_workers: int,
         batch_size: int
 ):
-    """
-    Runs the model on all images in the given directory and saves the results.
-    :param model: the model to run
-    :param dataset: pytorch dataset
-    :param num_workers: number of parallel workers for the DataLoader
-    :param batch_size: batch size for the DataLoader
-    :param proto_pool: whether the model is ProtoPool
-    :return a generator of model outputs for each of the images, together with batch data
-    """
+    """데이터셋 전반을 순회하며 예측/슬롯 활성/bbox index/heatmap을 yield."""
     test_loader = torch.utils.data.DataLoader(
         dataset,
         batch_size=batch_size,
@@ -302,8 +289,16 @@ def run_model_on_dataset(
             'heat_map':heat_map,
         }
     ########## activation metric change 
-def get_activation_change_metrics(act_before, act_after, proto_nums, cls_proto_nums, proto_indx_af,proto_indx_bf, heat_map_bf,
-                                 heat_map_af, log):
+def get_activation_change_metrics(act_before,
+                                 act_after,
+                                 proto_nums,
+                                 cls_proto_nums,
+                                 proto_indx_af,
+                                 proto_indx_bf,
+                                 heat_map_bf,
+                                 heat_map_af,
+                                 log):
+    """PAC/PRC/PLC 지표를 계산해 dict로 반환."""
     metrics = {}
     # PAC calculation
     log("##############")
@@ -357,7 +352,8 @@ def get_activation_change_metrics(act_before, act_after, proto_nums, cls_proto_n
     log("##############")
     return metrics
 
-def adv_analysis(opt: Optional[List[str]])-> None:
+def adv_analysis(opt: Optional[List[str]]) -> None:
+    """메인 엔트리: adversarial 위치 불일치 실험 실행."""
     from adv_setting import load_model_path, test_dir, model_output_dir
     parser = argparse.ArgumentParser()
     parser.add_argument('--gpuid', nargs=1, type=str, default='0')
