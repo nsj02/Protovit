@@ -1,6 +1,12 @@
 # Datasets and large archives
 CUB_200_2011/
 CUB_200_2011.tgz
+cub200_cropped/
+
+# Analysis artefacts
+analysis_outputs/
+saved_models/**/_nearest_train/
+saved_models/**/_nearest_test/
 
 # Augmented datasets and checkpoints (add as needed)
 datasets/
@@ -8,3 +14,6 @@ saved_models/
 
 # OS artifacts
 .DS_Store
+# Python cache
+__pycache__/
+*.pyc

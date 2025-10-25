@@ -21,6 +21,8 @@ import os
 from helpers import makedir
 import find_nearest
 import argparse
+import model
+from torch.serialization import add_safe_globals
 
 from preprocess import preprocess_input_function
 
@@ -43,7 +45,11 @@ start_epoch_number = int(epoch_number_str)                       # 최근 push�
 # load the model
 print('Load model from ' + load_model_path)
 print('start_epoch_number: ', start_epoch_number)
-ppnet = torch.load(load_model_path)          # push 이후 저장된 전체 모델 객체 (proto vectors 포함)
+add_safe_globals([model.PPNet])
+try:
+    ppnet = torch.load(load_model_path, weights_only=False)          # PyTorch >= 2.6 호환
+except TypeError:
+    ppnet = torch.load(load_model_path)          # 하위 버전 호환
 ppnet = ppnet.cuda()                         # GPU로 이동해 push_forward/forward를 그대로 활용
 #ppnet_multi = torch.nn.DataParallel(ppnet)
 

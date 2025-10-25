@@ -142,20 +142,21 @@ def find_k_nearest_patches_to_prototypes(dataloader,
 
     for index, (search_batch_input, search_y) in enumerate(dataloader):
         log(f'batch {index}')
-        # (선택) push용 전처리가 지정된 경우 적용 후 GPU로 이동
-        if preprocess_input_function is not None:
-            search_batch = preprocess_input_function(search_batch_input)
-            search_batch = search_batch.cuda()
-        else:
-            search_batch = search_batch_input.cuda()
-        n_p = prototype_shape[2]  # 슬롯 개수 (예: 4)
-        slots_torch_raw = torch.sigmoid(ppnet.patch_select * ppnet.temp)  # [1, num_proto, num_slots]
-        proto_slots = np.copy(slots_torch_raw.detach().cpu().numpy())      # numpy 사본 (CPU 기록용)
-        factor = slots_torch_raw.sum(-1, keepdim=True) + 1e-10            # 슬롯 확률 합 (0 방지 epsilon)
+        with torch.no_grad():
+            # (선택) push용 전처리가 지정된 경우 적용 후 GPU로 이동
+            if preprocess_input_function is not None:
+                search_batch = preprocess_input_function(search_batch_input)
+                search_batch = search_batch.cuda()
+            else:
+                search_batch = search_batch_input.cuda()
+            n_p = prototype_shape[2]  # 슬롯 개수 (예: 4)
+            slots_torch_raw = torch.sigmoid(ppnet.patch_select * ppnet.temp)  # [1, num_proto, num_slots]
+            proto_slots = np.copy(slots_torch_raw.detach().cpu().numpy())      # numpy 사본 (CPU 기록용)
+            factor = slots_torch_raw.sum(-1, keepdim=True) + 1e-10            # 슬롯 확률 합 (0 방지 epsilon)
 
-        # push_forward: 특징맵/거리/슬롯 index를 반환 → greedy_distance 기반이라 slots와 동일
-        protoL_input_torch, proto_dist_torch, proto_indices_torch = ppnet.push_forward(search_batch) # [B, feat_dim, 14, 14], [B, num_proto, num_slots], [B, num_proto, num_slots]
-        _, _, values = ppnet(search_batch)  # forward: greedy_distance → evidence 출력과 슬롯 활성
+            # push_forward: 특징맵/거리/슬롯 index를 반환 → greedy_distance 기반이라 slots와 동일
+            protoL_input_torch, proto_dist_torch, proto_indices_torch = ppnet.push_forward(search_batch) # [B, feat_dim, 14, 14], [B, num_proto, num_slots], [B, num_proto, num_slots]
+            _, _, values = ppnet(search_batch)  # forward: greedy_distance → evidence 출력과 슬롯 활성
         # 슬롯 확률을 합이 n_p가 되도록 보정한 후, greedy 활성값에 곱해 실제 활성도로 사용
         values_slot = values.clone() * (slots_torch_raw * n_p / factor)  # [B, num_proto, num_slots]
         cosine_act = values_slot.sum(-1)  # [B, num_proto]; ProtoPNet-style 활성도

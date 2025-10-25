@@ -28,6 +28,7 @@ from torch.autograd import Variable
 from torch.utils.data import Dataset, Subset
 from tqdm import tqdm
 
+from torch.serialization import add_safe_globals
 from helpers import makedir, find_high_activation_crop
 import model
 import save
@@ -367,7 +368,11 @@ def adv_analysis(opt: Optional[List[str]]) -> None:
     log, logclose = create_logger(log_filename=os.path.join(model_output_dir, 'local_analysis.log'))
     # load model 
     load_model_path = load_model_path
-    ppnet = torch.load(load_model_path)
+    add_safe_globals([model.PPNet])
+    try:
+        ppnet = torch.load(load_model_path, weights_only=False)
+    except TypeError:
+        ppnet = torch.load(load_model_path)
     ppnet = ppnet.cuda()
     img_size = ppnet.img_size
     normalize = transforms.Normalize(mean=mean,

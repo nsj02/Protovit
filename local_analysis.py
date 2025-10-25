@@ -32,6 +32,7 @@ from PIL import Image
 from typing import List, Optional
 import copy
 import pickle
+from torch.serialization import add_safe_globals
 
 ##### HELPER FUNCTIONS FOR PLOTTING
 def makedir(path):
@@ -302,7 +303,11 @@ def analyze(opt: Optional[List[str]]) -> None:
     log('model base architecture: ' + model_base_architecture)
     log('experiment run: ' + experiment_run)
 
-    ppnet = torch.load(load_model_path)   # push 이후 가중치/프로토타입이 포함된 전체 모델 객체
+    add_safe_globals([model.PPNet])
+    try:
+        ppnet = torch.load(load_model_path, weights_only=False)  # PyTorch >= 2.6 호환
+    except TypeError:
+        ppnet = torch.load(load_model_path)  # 하위 버전 호환
     ppnet = ppnet.cuda()
     normalize = transforms.Normalize(mean=mean, std=std)
     img_size = ppnet.img_size
